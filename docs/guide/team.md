@@ -58,6 +58,7 @@
 
 ## 加入方式
 
-1. 把 GitHub 用户名发给组长，加进仓库 Collaborator（或直接 fork + PR，无需授权）。
-2. 认领专题后，把上表的「_待填_」改成自己的 GitHub 账号。
-3. 群昵称和 GitHub 账号不一致的，务必在表里填清楚，方便 Review 时对人。
+1. 先读一遍[贡献指南](./contribute)，把 git 环境和 `npm install` 跑通，后面才不会卡在环境上。
+2. 把 GitHub 用户名发给组长，加进仓库 Collaborator。
+3. 认领专题后，把上表的「_待填_」改成自己的 GitHub 账号。
+4. 群昵称和 GitHub 账号不一致的，务必在表里填清楚，方便 Review 时对人。
