@@ -143,7 +143,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: '内容由各研究小组共建 · 仅用于合规研究与治理技术交流',
+      message: '内容采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可 · 仅用于合规研究与治理技术交流',
       copyright: '虚拟币治理打击技术开源社区',
     },
   },
