@@ -138,7 +138,7 @@ export default defineConfig({
     externalLinkIcon: true,
 
     editLink: {
-      pattern: 'https://github.com/Fiagainster/vcoin-gov/edit/main/docs/:path',
+      pattern: 'https://github.com/vcoin-gov/vcoin-gov/edit/main/docs/:path',
       text: '在 GitHub 上编辑此页',
     },
 

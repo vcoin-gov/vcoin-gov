@@ -17,7 +17,7 @@
 
 ```bash
 # 1. 克隆
-git clone https://github.com/Fiagainster/vcoin-gov.git
+git clone https://github.com/vcoin-gov/vcoin-gov.git
 cd vcoin-gov
 
 # 2. 装依赖（已配 npmmirror 源，国内可直接装）
@@ -119,7 +119,7 @@ PR 描述里写三行就够：**改了什么 / 依据是什么 / 还有哪些没
 
 合并到 `main` 后自动触发 GitHub Actions 构建，约 1 分钟站点更新。页面底部的「最后更新」随 git 提交时间自动变化。
 
-构建失败会在这里看到红灯：<https://github.com/Fiagainster/vcoin-gov/actions>
+构建失败会在这里看到红灯：<https://github.com/vcoin-gov/vcoin-gov/actions>
 
 ## 九、常见问题
 

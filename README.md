@@ -6,7 +6,7 @@
 
 ## 在线访问
 
-站点地址：`https://<组织名>.github.io/vcoin-gov/`
+站点地址：<https://vcoin-gov.github.io/vcoin-gov/>
 
 ## 这是什么
 
