@@ -170,6 +170,15 @@ PR 标题：
 
 组长保留管理员豁免权，用于紧急修复。**但正常情况组长也走 PR**，豁免权只是保险丝，不是常规通道。
 
+::: tip 只有 1 个协作者时怎么办
+GitHub 不允许自己批准自己的 PR。在第二名协作者加入之前，组长开的 PR 会一直卡在 `Review required`。两个办法：
+
+- 网页上：PR 页面底部会出现 **`Merge without waiting for requirements to be met`**（管理员专属按钮），点了直接合
+- 命令行：`gh pr merge <编号> --squash --admin`
+
+协作者到两人以上后，就别再用这个口子，正常互审。
+:::
+
 ## 八、合并前自查
 
 - [ ] `npm run dev` 本地预览正常，没乱版
