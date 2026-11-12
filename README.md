@@ -1,5 +1,8 @@
 # 虚拟币治理打击技术开源社区
 
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)
+[![Docs](https://img.shields.io/badge/docs-vcoin--gov.github.io-0ea5e9.svg)](https://vcoin-gov.github.io/vcoin-gov/)
+
 聚焦比特币、稳定币、各类土狗币、跑分、资金盘、跨境涉诈虚拟币链路，围绕**风险识别、链路特征、治理难点、技术研判、防控对策、宣传预警**开展协同研究的公开知识库。
 
 > 内容仅用于合规研究与治理技术交流，不构成法律意见。
