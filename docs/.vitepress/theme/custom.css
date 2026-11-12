@@ -182,11 +182,19 @@
 .dark .doc-meta span.doing { color: #38bdf8; }
 .dark .doc-meta span.done { color: #34d399; }
 
-/* 表格 */
+/* 表格：保持可横向滚动（窄屏不撑破布局），同时撑满宽度 */
 .vp-doc table {
-  display: table;
+  display: block;
+  overflow-x: auto;
   width: 100%;
   font-size: 14px;
+}
+
+/* 长 URL、长哈希在窄屏下强制换行，避免撑破页面 */
+.vp-doc a,
+.vp-doc p,
+.vp-doc li {
+  overflow-wrap: break-word;
 }
 
 .vp-doc th {
