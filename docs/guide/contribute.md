@@ -122,6 +122,7 @@ git rebase --abort
 | 链路可视化 | `docs/onchain/visualization.md` |
 | 链上分析工具 | `docs/onchain/tools.md` |
 | 开源项目调研 | `docs/tech/oss-projects.md` |
+| Blockscout 专题 | `docs/tech/blockscout.md` |
 | 检测模型与原型 | `docs/tech/detection-model.md` |
 | 术语 | `docs/glossary/terms.md` |
 | 数据源、文献、链接 | `docs/glossary/resources.md` |

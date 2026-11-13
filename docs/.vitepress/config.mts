@@ -91,6 +91,7 @@ export default defineConfig({
         items: [
           { text: '组内概览', link: '/tech/' },
           { text: '开源项目调研', link: '/tech/oss-projects' },
+          { text: 'Blockscout 专题', link: '/tech/blockscout' },
           { text: '检测模型与原型', link: '/tech/detection-model' },
         ],
       },
