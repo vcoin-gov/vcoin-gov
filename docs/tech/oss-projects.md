@@ -176,8 +176,8 @@ star 数只用于排序，不参与判定。
 
 【推断｜置信度：高】**"fork Blockscout 长期自用"这条路的确定性下降了**：不是不能做，而是不能把它当成一次性投入——许可可以变，改一次条款就得重新评估。这也是本页仍维持"优先旁挂、不做 fork"的原因之一。详见 [Blockscout 专题](./blockscout)。
 
-::: tip 复核提醒
-`docs/tech/blockscout.md` 与仓库 `CONTRIBUTING.md` 里"GPL"的表述已过时，待同步。
+::: tip 复核提醒（2026-11-18 已处理）
+`blockscout.md` 4.5 节已补许可说明；`CONTRIBUTING.md` 经全文检索并无 GPL 表述，无需修改。本提醒保留作为口径变更的留痕，下个季度复核时删除。
 :::
 
 ### 3.2 GraphSense 支持 TRON，且架构已经重构（纠正原稿）
@@ -329,7 +329,7 @@ star 数只用于排序，不参与判定。
 - [ ] 实测 `fystack/multichain-indexer` 拉 TRC20 转账，记录改造量
 - [ ] 实测 Tronscan API 的限流与字段完整度，写成表格（与链上组共用）
 - [ ] 写一个最小 demo：拉一个地址的 3 跳交易，存 PostgreSQL，用 NetworkX 算最短路径
-- [ ] 给 `blockscout.md` 补一节许可说明，同步 `CONTRIBUTING.md` 中过时的 GPL 表述
+- [x] 给 `blockscout.md` 补一节许可说明（4.5 节，2026-11-18 完成）；`CONTRIBUTING.md` 全文检索无 GPL 表述，无需同步
 - [ ] 与链上组对一次数据结构，确保标签与特征能互相导入
 
 ## 参考
