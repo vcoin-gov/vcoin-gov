@@ -14,7 +14,7 @@ title: 开源项目调研
 1. **能直接当"分析平台"用的开源项目只有 GraphSense 一个。** 它现在支持 TRON（`trx-client` + 库内 `trx` transformation，2026-11 仍活跃），但没有 BSC；代价是要在 Cassandra + Spark 上运维。本期结论：只读它的代码与 TagPack，不部署。
 2. **采集层 EVM 选择很多，TRON 只有一条活路。** `tronetl` 停更在 2026-02 且**无 License**，`tronscan-api` 停更在 2023 且无 License，`bitcoin-etl` 18 个月无提交。仍活跃的 TRON 采集件只有两个：GraphSense 的 `trx-client`（只服务自家格式）、`fystack/multichain-indexer`（MIT，14 链含 TRON / BSC）。
 3. **`pushed_at` 会骗人，判据要换成"近 13 周提交数 + 最新 release + 提交内容"。** 按日期看 TrueBlocks 像是活跃的（2026-11-04 有推送），按提交内容看是**实质停摆**：近 13 周 2 次提交（"Cleaning" 与文档），最新 release 停在 2025-09-28。同类情况还有 AntV G6（近期提交全是版本号与主题 bump）。
-4. **筛查层这次找到了真东西：`moov-io/watchman`**（Apache-2.0、525 star、44 贡献者、近 13 周 282 次提交）。一条 Docker 命令拉齐 OFAC / EU / UK / UN / OpenSanctions 八张名单，**支持按加密地址检索**（地址命中直接 1.0 分），评分可读、可解释。这是本页唯一建议"值得装"的现成组件。
+4. **筛查层这次找到了真东西：`moov-io/watchman`**（Apache-2.0、525 star、44 贡献者、近 13 周 282 次提交）。一条 Docker 命令拉齐 OFAC / EU / UK / UN / OpenSanctions 八张名单，**支持按加密地址检索**（地址＋国家命中即 1.0 分），评分可读、可解释。这是本页唯一建议"值得装"的现成组件。
 5. **聚类层的位置被 `bitiodine` 接住了。** Rust 写的比特币解析器 + 共花聚类（Union-Find），MIT/Apache 双许可，2026-11 仍在提交。它是 BlockSci 停摆后唯一"能跑、许可干净、还在动"的聚类实现——但只覆盖 BTC，**方法可借、代码不可搬到 TRON**。
 6. **Blockscout 不再是 GPL。** 2026-04-22 起改用自有许可 `LicenseRef-Blockscout`：内部非商业使用可以，但许可可撤销、可单方变更，界面须保留 "Powered by Blockscout" 署名，SaaS 化或收费需另购商业许可。**fork 之前先锁旧版本**（该许可不溯及 Prior Software）。
 7. **推荐组合：三件 + 自研 + 一个可选组件**——公开 API + PostgreSQL / NetworkX / Cytoscape.js / 自研规则引擎，外加 watchman 做名单筛查。万级节点之后升级到 Networkit（MIT）而不是 Neo4j；十万级大图渲染换 cosmos.gl（GPU）。
@@ -216,7 +216,7 @@ star 数只用于排序，不参与判定。
 
 ### 3.5 名单筛查：`watchman` 补上了最缺的一块
 
-【事实｜[README](https://github.com/moov-io/watchman) + 元数据】Apache-2.0、525 star、44 贡献者、2026-11-16 发版、近 13 周 282 次提交。一条 `docker run` 就拉齐并索引 OFAC SDN / Non-SDN、US CSL、FinCEN 311、EU、UK、UN、OpenSanctions 八类名单；检索字段包含 **crypto**，**地址命中直接计 1.0 分**，姓名/证件/地址等字段按权重叠加，输出 0–1 的可解释评分。
+【事实｜[README](https://github.com/moov-io/watchman) + 元数据】Apache-2.0、525 star、44 贡献者、2026-11-16 发版、近 13 周 282 次提交。一条 `docker run` 就拉齐并索引 OFAC SDN / Non-SDN、US CSL、FinCEN 311、EU、UK、UN、OpenSanctions 八类名单；检索字段包含 **crypto**，地址（需同时给国家字段）命中直接计 1.0 分，姓名/证件/地址等字段按权重叠加，输出 0–1 的可解释评分。
 
 为什么它值得装：我们缺的不是"名单文件"，是**把名单变成可查询判据**的那一层。之前只能人工在 OFAC 页面粘地址比对，这是典型的"几十行脚本也能做、但做不好"的活——重名、别名、跨语言、证件号冲突的处理，watchman 已经写完了。
 
