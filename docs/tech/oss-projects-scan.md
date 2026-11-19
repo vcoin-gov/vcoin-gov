@@ -426,6 +426,28 @@ title: 开源项目全量扫描（2026-11-19）
 - 【待验证】squid-sdk tron 包对 TRC20 / 内部交易的解码覆盖度；rindexer 在 BSC 3s 出块下的回填吞吐；GoPlus 免费额度对日均筛查量的满足度；destroylist 误报率；MetaMask DBAD 许可的对外交付边界。
 - 【事实】全部 star / 提交数为 2026-11-18 夜—11-19 晨快照；引用超过一个季度请按主页「调研口径」命令重跑。
 
+## 10. 二轮深挖：六个空缺方向的复查（2026-11-19）
+
+针对首轮确认的六个空缺，换关键词、翻组织仓库、读数据源脚本做了第二轮排查。结论先行：**①地址级黑名单从"空缺"改为"有数据源"；②USDT 冻结追踪找到可直接抄的方法论实现；④Travel Rule 找到唯一活着的开源协议（TRISA）；③⑤⑥经更宽检索后维持空缺，但给出了可行的自建路径**。
+
+| 方向 | 首轮结论 | 二轮发现 | 修订后结论 |
+| --- | --- | --- | --- |
+| ① 地址级 drainer 黑名单 | 空缺 | [scamsniffer/scam-database](https://github.com/scamsniffer/scam-database) 内含 `blacklist/address.json`（2,530 条 ETH 地址，bot 更新，wk13=113）；[prettydeath/wallet-attribution](https://github.com/prettydeath/wallet-attribution)（63.4 万条归因地址 / 48 链，含 scam/mixer/hacker/sanctioned 类目，MIT 文本）；ChainAbuse 为封闭注册平台 | **有数据源，无统一标准**：scamsniffer（小而精，GPL-3.0）+ wallet-attribution（大而全，SPDX 缺失需法务留痕）交叉使用；drainer 专项标签仍靠商业源补 |
+| ② USDT 冻结事件追踪 | 无专门工具 | wallet-attribution 的 `scripts/fetch_onchain.py` **就是**这件事：从 USDT 合约 `AddedBlackList/RemovedBlackList` 事件重建当前黑名单——ETH `0xdAC17F…` 与 TRON `TR7NHq…`（TRC20 USDT）双链，TronGrid 免 Key；USDC 同理（`Blacklisted/UnBlacklisted`） | **方法论找到，可直接抄**：脚本 MIT，几百行；"事件级实时告警"仍需自建，但"当前冻结名单"已可自动化重建 |
+| ③ MEV 检测 | flashbots 已 archive | [zeromev/zeromev-core](https://github.com/zeromev/zeromev-core)（ZeroMEV 论文核心，MIT，2024-12 停）；Solana 侧零散小工具（Tao-2022 jito 夹击检测器 22★，2025-07 停） | **维持弱项**：ETH 侧活跃维护的完整实现仍无；归档的 mev-inspect-py 代码可读，三明治认定建议自研或直接用 03 类 SandwichTrace |
+| ④ Travel Rule | OpenVASP 停摆 | [trisacrypto/trisa](https://github.com/trisacrypto/trisa)（TRISA：MIT，14 贡献者，2019 起家，2026-01 仍有提交但年提交仅 1 次） | **找到唯一活着的开源协议**：TRISA 演进缓慢但组织化；协查技术原型可读 TRISA，实际落地仍靠人工对接 |
+| ⑤ TRON 混币取证 | 空缺 | [DarkFlorist/tronar](https://github.com/DarkFlorist/tronar)（TRON 版 Tornado SDK，无许可，2025-02 停）——**证明 TRON 侧混币协议真实存在**；wallet-attribution 的 mixer 标签可圈定"接触过混币器的地址" | **缺口维持**：demixer 的行为启发式未移植到 TRON（账户模型 + 能量模型差异），是明确的自研方向 |
+| ⑥ 蜜罐检测 TRON 等价物 | 空缺 | 全网检索零命中；GoPlus SDK 对 TRON 仅 1 处引用（端点疑似存在但 SDK 支持薄弱） | **缺口维持**：可行路径 = GoPlus TRON 端点直接调 API 实测 + java-tron `triggerconstantcontract` 自研买/卖模拟（注意 TRON 无 state-override，"预授权模拟器"打法不可移植） |
+
+### 本节要点
+
+- 【事实｜scam-database 仓库树 + contents API，2026-11-19】`blacklist/address.json` 实测 2,530 条小写 ETH 地址；`all.json` 聚合域名+地址；仓库近 13 周 113 次提交（bot 更新），GPL-3.0。
+- 【事实｜wallet-attribution README + fetch_onchain.py 源码，2026-11-19】63.4 万地址、48 网络、38.3 万交易所钱包；USDT 黑名单重建覆盖 Ethereum + TRON 双链；数据可由 `fetch_sources.sh` + `build.py` 全量复跑。
+- 【事实｜LICENSE 文件原文，2026-11-19】wallet-attribution 的 LICENSE 文本为 MIT（Copyright (c) 2026 Johnny），但 GitHub API 识别为 NOASSERTION（文件缺 SPDX 标识行）——引用数据前留痕即可，对外交付前请法务确认一次。
+- 【推断｜置信度：高】②⑥两方向合并看，TRON 侧"代币安全检测"的整体短板是**模拟能力**：EVM 有 state-override / eth_simulateV1，TRON 只有 `triggerconstantcontract` 常量调用——这是协议能力差异，不是开源社区怠惰；自研检测器要按这个约束设计。
+- 【推断｜置信度：中高】①的 63 万条归因地址若并入自建标签库，等于一次性拿到交易所/制裁/黑客/混币/赌博五个类目的底表——但它是**多源聚合再分发**，每条标签的上游来源要随行携带（数据集带 source 列），直接引用前抽检准确率。
+- 【待验证】wallet-attribution 各类目在 TRON 地址上的覆盖度（TRC20 地址占比）；GoPlus TRON 端点的实际可用性；scam-database address.json 的误报率。
+
 ## 参考
 
 本页全部项目均见各节表格内 GitHub 链接。方法与命令沿用主页「调研口径」。原始走读笔记与 JSON 索引：调研工作区 `oss-scan/sections/`（01–06）与 `oss-scan/notes/`（deepread-2026-11-19）。
