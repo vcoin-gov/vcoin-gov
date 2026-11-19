@@ -160,6 +160,20 @@ Blockscout（只读数据源）
 
 重写的正确姿势不是"照着抄"，而是**只借鉴它的数据模型**（表结构、标签模型、抓取进度表），索引器用自己的技术栈实现。
 
+### 4.5 前置条件：许可已不是 GPL
+
+【事实｜[LICENSE](https://github.com/blockscout/blockscout/blob/master/LICENSE)，生效日 2026-04-22】仓库许可由 GPL 改为自有许可 `LicenseRef-Blockscout`，许可方 Blockscout Limited（塞舌尔）。与本页三条路线相关的只有五点：
+
+| 条款 | 内容 | 对路线的影响 |
+| --- | --- | --- |
+| 授权 | 可下载、使用、部署、复制、修改、创作衍生作品 | 旁挂与 fork **都可以做** |
+| 性质 | **temporary、revocable**，许可方可单方更新 | 不是永久授权，条款变化需重新评估 |
+| 商业限制 | 未经商业许可不得出售、托管或以收费方式对外提供 | 内部研判平台无碍，对外交付要另议 |
+| 署名 | 用户界面须显著标注 "Powered by Blockscout" 并链回官网 | 交付界面预留位置 |
+| 溯及力 | **不适用**于生效日前的 Prior Software | 需要锁定旧版时，仍可按 GPL 使用 |
+
+结论不变但依据要更新：**仍然优先旁挂**；若确实要 fork，选一个 2026-04-22 之前的稳定 tag 锁定，把"许可变更"这一项变量从长期维护成本里摘出去。
+
 ## 五、可借鉴的四个设计
 
 | 设计 | 做法 | 我们能用在哪 |
@@ -174,6 +188,7 @@ Blockscout（只读数据源）
 - 【待验证】不同版本间的环境变量差异未做系统性比对，本文坑点仅覆盖 v9.0.2 与当前 master 的差异。
 - 【待验证】索引器在真实主网规模下的性能未压测，TB 级成本来自公开资料与经验估算。
 - 【推断】多实例/集群模式下的一致性表现未验证（编译配置中存在 `APPLICATION_MODE` 分离部署能力，但未实测）。
+- 【法律提示】4.5 的许可条款为人工阅读归纳，不构成法律意见；正式对外交付前须由法务复核 LICENSE 原文。
 - 未覆盖非 EVM 链路，TRON 的等价方案需要单独调研。
 
 ## 七、下一步
@@ -182,10 +197,12 @@ Blockscout（只读数据源）
 - [ ] 验证直连 PostgreSQL 只读查询在万级交易规模下的响应，形成性能基线
 - [ ] 评估 `address_tags` 表结构与自建标签库的兼容性，确定是复用还是另建
 - [ ] 若走 fork 路线，先做一次"只加一个自定义 API"的可行性验证，实测发布链路成本
+- [ ] 若走 fork 路线，锁定 2026-04-22 之前的 tag 作为基线（避开新许可）
 
 ## 参考
 
 1. Blockscout · 官方仓库与 `docker-compose` 目录
 2. Blockscout · REST API v2 文档
-3. 本组[开源项目调研](./oss-projects)的选型结论
-4. Ronin 跨链桥被盗案 · Etherscan 公开地址页（按需查询可行性验证样本）
+3. Blockscout · [LICENSE（LicenseRef-Blockscout，2026-04-22 生效）](https://github.com/blockscout/blockscout/blob/master/LICENSE)
+4. 本组[开源项目调研](./oss-projects)的选型结论
+5. Ronin 跨链桥被盗案 · Etherscan 公开地址页（按需查询可行性验证样本）
