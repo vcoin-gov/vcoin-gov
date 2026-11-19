@@ -17,7 +17,8 @@ title: 开源项目调研
 4. **筛查层这次找到了真东西：`moov-io/watchman`**（Apache-2.0、525 star、44 贡献者、近 13 周 282 次提交）。一条 Docker 命令拉齐 OFAC / EU / UK / UN / OpenSanctions 八张名单，**支持按加密地址检索**（地址＋国家命中即 1.0 分），评分可读、可解释。这是本页唯一建议"值得装"的现成组件。
 5. **聚类层的位置被 `bitiodine` 接住了。** Rust 写的比特币解析器 + 共花聚类（Union-Find），MIT/Apache 双许可，2026-11 仍在提交。它是 BlockSci 停摆后唯一"能跑、许可干净、还在动"的聚类实现——但只覆盖 BTC，**方法可借、代码不可搬到 TRON**。
 6. **Blockscout 不再是 GPL。** 2026-04-22 起改用自有许可 `LicenseRef-Blockscout`：内部非商业使用可以，但许可可撤销、可单方变更，界面须保留 "Powered by Blockscout" 署名，SaaS 化或收费需另购商业许可。**fork 之前先锁旧版本**（该许可不溯及 Prior Software）。
-7. **推荐组合：三件 + 自研 + 一个可选组件**——公开 API + PostgreSQL / NetworkX / Cytoscape.js / 自研规则引擎，外加 watchman 做名单筛查。万级节点之后升级到 Networkit（MIT）而不是 Neo4j；十万级大图渲染换 cosmos.gl（GPU）。
+7. **推荐组合：三件 + 自研 + 两个可选组件**——公开 API + PostgreSQL / NetworkX / Cytoscape.js / 自研规则引擎，外加 watchman 做名单筛查、destroylist 做域名黑名单；万级节点之后升级到 Networkit（MIT）而不是 Neo4j；十万级大图渲染换 cosmos.gl（GPU）。
+8. **2026-11-19 二轮全量扫描**（[全量扫描报告](./oss-projects-scan)）补上了三个缺口：混币取证（TornadoCash-demixer）、多链追踪（crypttrace）、冻结名单（自研原型已跑通，ETH USDT 1,745 / USDC 709 / TRON 8,281，抽样链上核对一致）。
 
 ## 本页要回答的问题
 
@@ -195,11 +196,12 @@ star 数只用于排序，不参与判定。
 | 路线 | 现状 | 代价 |
 | --- | --- | --- |
 | TronGrid / Tronscan 公开 API | 可用，需 Key，字段受端点限制 | 批量受限于限流，不是"开源项目"但最省事 |
-| `fystack/multichain-indexer` | MIT，Go 单二进制，14 链含 TRON + BSC，带 RPC 故障转移与断点续跑 | 面向"监控入账地址"，需改造成通用拉取；111 star，单人/小团队维护 |
+| `fystack/multichain-indexer` | MIT，Go 单二进制，14 链含 TRON + BSC，带 RPC 故障转移与断点续跑 | **源码走读（2026-11-19）**：不配监控地址时不过滤、全量流转，"改造"实为自写一个 NATS 消费者落库；111 star，单人/小团队维护；无查询 API 层 |
 | GraphSense `trx-client` + lib | 唯一成熟的开源 TRON 采集链路 | 产物是 GraphSense 内部格式，要配 Cassandra |
+| `subsquid/squid-sdk` | 唯一内置 TRON 原生摄取（tron-data 直读 java-tron HTTP API）的主流框架 | tron/evm 核心包 **GPL-3.0-or-later**（顶层 Apache-2.0），改造后对外分发需开源；tron 包 0.1.x 成熟度低于 EVM 包 |
 | `tronetl` | CSV 导出，功能对口 | 需自建 TRON 全节点 + **无 License**（一票否决） |
 
-【推断｜置信度：中高】**TRON 侧不存在"拿来即用、可商用、活跃维护"的开源 ETL**。要么走 API，要么接受 fystack 的改造工作量，要么自建节点。这是本页最硬的缺口，也是原型阶段建议"先 API 后自建"的直接理由。
+【推断｜置信度：中高】**TRON 侧不存在"拿来即用、可商用、活跃维护"的开源 ETL**，但缺口比第一版判断的更窄：全量流转可用 fystack（自写 NATS 消费者），原生摄取可用 squid-sdk（注意 GPL 分层），要么自建节点。详见[全量扫描报告](./oss-projects-scan)第 01 类。
 
 ### 3.4 已经不能选的项目，为什么还在推荐榜上
 
@@ -267,7 +269,23 @@ star 数只用于排序，不参与判定。
 
 【结论】**快速识别刷量仓库的三条**：贡献者是否只有 1 人、提交信息是否模板化、star 增长是否与 Issue/Release 活动脱节。三条占两条就降级为"只读参考"。
 
-### 3.9 决策引擎：没有可直接集成的开源选项
+**2026-11-19 二轮扫描再次验证（4 个新样本）**：[interchange](https://github.com/tabookhandawn/interchange-osint-cross-chain-tracing)（240★，创建与推送同日、`lib/` 仅 122 行 js，应用本体闭源）、[Crypto-Whale-Tracker](https://github.com/zacharyrogue/Crypto-Whale-Tracker)（180★，提交全部为 `Auto commit: <时间戳>`，与本案同款）、wallet-security-checker（112★，2 次提交）、spout-osint-whale-alerts（166★，7 次提交）。【推断｜置信度：高】这套"机器流水 + 星标冲量"已形成产业手法，反刷量检查必须前置到检索第一步。
+
+### 3.9 混币取证与多链追踪：从"空白"改为"有候选，需自证"（2026-11-19 修订）
+
+第一版结论是"混币/跨链/OTC 三类场景均未找到可用开源实现"。第二轮按缺口反向检索（详见[全量扫描报告](./oss-projects-scan)第 03、10 类）后修正：
+
+| 场景 | 新发现 | 判定 |
+| --- | --- | --- |
+| Tornado Cash 取证（EVM） | [prettydeath/TornadoCash-demixer](https://github.com/prettydeath/TornadoCash-demixer)：8 条 EVM 链 56 个池，证据强/中/弱分级 + 安慰剂校准，2026-11-18 仍在提交 | **主力候选**（单人维护、star=1，需用已知案例自证） |
+| 多链资金追踪（含 TRON） | [bobslayerX/crypttrace](https://github.com/bobslayerX/crypttrace)：PyPI 包，TRON/SOL/TON/BTC 免 Key，内置 USDT/USDC 冻结直查、Gephi 导出、PDF 证据包 | **主力候选**（单人维护，建仓 4 个月） |
+| 地址级诈骗黑名单 | [scamsniffer/scam-database](https://github.com/scamsniffer/scam-database) 的 `blacklist/address.json`（实测 2,530 条）；[prettydeath/wallet-attribution](https://github.com/prettydeath/wallet-attribution)（63.4 万归因地址 / 48 链） | 有数据源，无统一标准 |
+| 跨链桥命名 / OTC 商户识别 | 仍无开源实现；240★ 的 interchange 实为落地页仓库 | **维持空缺** |
+| TRON 侧混币取证 | 只有 `DarkFlorist/tronar`（TRON 版 Tornado SDK，已停更）证明协议存在 | **维持空缺**（已列入检测模型页排期 P3） |
+
+【推断｜置信度：中高】两个主力候选都是"真金但没被看见"型（star≤31、单人维护）。采用前必须完成三件事：用已知案件复现、跑干净地址空转基线、审计输出不确定性。在此之前只进"候选池"，不进推荐组合。
+
+### 3.10 决策引擎：没有可直接集成的开源选项
 
 [marble](https://github.com/checkmarble/marble) 是这一层最像样的项目（实时反欺诈/反洗钱决策引擎），2026-11-16 刚发 1.14，但三件事决定了它不能当基础设施：许可为 **Elastic License 2.0**（允许内部使用与修改，禁止把其功能作为托管服务对外提供）；公开仓库近 13 周只有 7 次提交，**都是发版合并**（open-core，实际开发在私有分支）；FalkorDB（SSPL）、Memgraph（BSL 1.1）同理。
 
@@ -278,7 +296,8 @@ star 数只用于排序，不参与判定。
 | 层 | 选择 | 理由 | 反悔成本 |
 | --- | --- | --- | --- |
 | 数据 | **公开 API（TronGrid / Tronscan + Etherscan 系）+ 本地 PostgreSQL 缓存** | 零门槛起步；缓存层隔开数据源变更 | 低：换源只改采集器 |
-| 筛查 | **moov-io/watchman**（Docker 单容器） | 唯一"装得上、评分可解释、Apache-2.0"的名单筛查引擎 | 低：旁挂服务，不进主链路 |
+| 筛查 | **moov-io/watchman**（Docker 单容器）+ **phishdestroy/destroylist**（域名黑名单 feed） | 前者唯一"装得上、评分可解释、Apache-2.0"的名单引擎；后者 205k+ 钓鱼/诈骗域名、MIT、日更 | 低：均为旁挂，不进主链路 |
+| 冻结/追踪（候选） | **自研冻结名单重建**（已跑通，见[检测模型页](./detection-model#八-原型排期-2026-11-19-定)）+ crypttrace（只读借鉴） | 冻结名单必须来自发行方合约事件；crypttrace 的 freeze/assess 模块方法可借 | 低：原型代码在 `prototypes/` |
 | 图计算 | **NetworkX** | 纯 Python，算法齐全，团队零学习成本 | 低：升级目标已定（Networkit，MIT） |
 | 可视化 | **Cytoscape.js** | 专用图库，布局与交互够用，可直接接前端原型 | 中：换 sigma.js / cosmos.gl 需重写渲染层 |
 | 规则 | **自研 JSON 规则引擎** | 可解释、可版本化、可写测试；无标注数据前唯一正确选择 | 低 |
@@ -310,7 +329,7 @@ star 数只用于排序，不参与判定。
 - 【待验证】`altscan` 只读了 README，代码质量与索引完整性未验证；3 star、单人维护的样本不足以支撑"可部署"的结论。
 - 【口径】2.5 的"13 周提交数"来自 GitHub participation 统计，**含合并提交与依赖更新**，因此必须与提交内容对照读（TrueBlocks 与 G6 的结论就是这么翻过来的）。
 - 【待验证】GraphSense 的部署成本（Cassandra + Spark）未实测，本页"不部署"的结论基于运维人力而非实测数据。
-- 【推断】清理混币、OTC 商户识别、跨链桥跳转这三类场景，**多轮公开检索（关键词：mixer detection / cross-chain tracing / wallet attribution）均未找到可用的开源实现**（置信度：中高）——命中的多为论文复现或单文件脚本，不具备部署条件。
+- 【推断】清理混币、OTC 商户识别、跨链桥跳转这三类场景（2026-11-19 修订）：**混币取证与多链追踪已找到候选实现**（TornadoCash-demixer / crypttrace，见 3.9）；**OTC 商户识别与跨链桥自动化命名仍无可用开源实现**（置信度：中高）。完整检索记录见[全量扫描报告](./oss-projects-scan)。
 - 【事实】star、`pushed_at`、提交数均为 2026-11-18 的快照，会变；引用超过一个季度请按「调研口径」里的命令重跑一遍。
 - 【法律提示】3.1 的许可条款为人工阅读归纳，不构成法律意见；正式对外交付前应由法务复核 `LICENSE` 原文。
 - 【口径】本页不评估任何工具的**检测准确率**——没有统一测试集，任何"准确率"数字都是不可比的。
@@ -330,7 +349,13 @@ star 数只用于排序，不参与判定。
 - [ ] 实测 Tronscan API 的限流与字段完整度，写成表格（与链上组共用）
 - [ ] 写一个最小 demo：拉一个地址的 3 跳交易，存 PostgreSQL，用 NetworkX 算最短路径
 - [x] 给 `blockscout.md` 补一节许可说明（4.5 节，2026-11-18 完成）；`CONTRIBUTING.md` 全文检索无 GPL 表述，无需同步
-- [ ] 与链上组对一次数据结构，确保标签与特征能互相导入
+- [x] 与链上组对一次数据结构，确保标签与特征能互相导入
+- [x] **二轮全量扫描（2026-11-19）**：六类 85 项判定 + 14 仓走读，见[全量扫描报告](./oss-projects-scan)
+- [x] **P1 冻结名单重建原型**：ETH USDT 1,745 / USDC 709 / TRON 8,281，抽样链上核对通过，见 `prototypes/usdt-freeze-sync/`
+- [ ] 实测 crypttrace（TRON 已知案件复现）与 TornadoCash-demixer（历史地址对照人工结果）
+- [ ] 复核 `subsquid/squid-sdk` tron 包 GPL 传染边界（对外分发前）
+- [ ] 抽样核对 destroylist 误报率；MetaMask `eth-phishing-detect` 的 DBAD 许可法务确认
+- [ ] 按排期推进检测模型 P2（TRON 蜜罐）与 P3（TRON 混币取证）
 
 ## 参考
 
