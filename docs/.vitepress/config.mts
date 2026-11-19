@@ -83,6 +83,9 @@ export default defineConfig({
           { text: '异常地址特征', link: '/onchain/address-features' },
           { text: '链路可视化研究', link: '/onchain/visualization' },
           { text: '链上分析工具对比', link: '/onchain/tools' },
+          { text: '工具选型一页纸', link: '/onchain/tools-brief' },
+          { text: '实测与自建附录', link: '/onchain/tools-appendix' },
+          { text: '标签横评取数单', link: '/onchain/tools-testlog' },
         ],
       },
       {
@@ -91,6 +94,7 @@ export default defineConfig({
         items: [
           { text: '组内概览', link: '/tech/' },
           { text: '开源项目调研', link: '/tech/oss-projects' },
+          { text: '开源项目全量扫描', link: '/tech/oss-projects-scan' },
           { text: 'Blockscout 专题', link: '/tech/blockscout' },
           { text: '检测模型与原型', link: '/tech/detection-model' },
         ],
