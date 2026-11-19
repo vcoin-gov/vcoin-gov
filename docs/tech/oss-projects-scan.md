@@ -33,7 +33,7 @@ title: 开源项目全量扫描（2026-11-19）
 - **与主页的关系**：主页的选型结论（推荐组合）本页不重述；本页只新增发现与修订建议（见文末）。判定用词：新项目达标注**主力候选**，经实测复核后才升"主力"进主页推荐组合。
 - **核查方式**：GitHub API 逐仓核查（元数据 / participation / commits 内容 / 贡献者 / release / LICENSE 正文）；对重点项目浅克隆走读（只读不运行）。核查快照 2026-11-18 夜 — 11-19 晨，命令与主页「调研口径」一致。
 - **覆盖边界**：GitHub 全量检索不等于行业全量——关键词污染（"tornado"命中 Python 框架）、中文项目对英文关键词不可见、闭源商业工具不在射程。本页的"空缺"结论均为"GitHub 检索范围内未找到"。
-- **原始数据**：六类判定表与 JSON 索引、走读笔记存于调研工作区（`D:\oss-scan\`，含克隆副本），仓库内只保留本页结论。
+- **原始数据**：六类判定表与 JSON 索引、走读笔记存于调研工作区（工作区内 `oss-scan/`，已 gitignore，含克隆副本），仓库内只保留本页结论。
 
 ## 01. 数据采集 / ETL / 索引器 / 节点 / 浏览器
 
@@ -64,7 +64,7 @@ title: 开源项目全量扫描（2026-11-19）
 
 ### 深入分析（浅克隆走读）
 
-**joshstevens19/rindexer**（D:\oss-scan\repos\joshstevens19__rindexer）
+**joshstevens19/rindexer**（oss-scan/repos/joshstevens19__rindexer）
 - 结构：Rust workspace（cli/core/graphql/providers/xtask）+ e2e-tests + examples + documentation + helm；Dockerfile 与 docker-compose 齐备，镜像 ghcr.io/joshstevens19/rindexer。
 - 部署：docker-compose 单容器 + DATABASE_URL（Postgres）；或安装脚本原生运行；K8s 有 helm chart。2026-11-15 发布 v1.0.0。
 - 配置模型：rindexer.yaml 定义 networks（任意 chain_id+rpc）与合约事件/工厂/phantom 事件；examples 含 native_transfers、erc20_balances/allowances、dex_pool、clickhouse_factory_indexing 等，正对资金流研判所需数据形态。
@@ -73,7 +73,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 可借：无代码 YAML 起步 + rust codegen 进阶；native_transfers 示例可直接改造为 ETH/BSC 转账底表。
 - 风险：主开发者 Josh Stevens 单人主导（46 contributors 但核心集中）；Windows 原生二进制不含 reth-ExEx 模式（Docker/Linux 无碍）。
 
-**subsquid/squid-sdk**（D:\oss-scan\repos\subsquid__squid-sdk）
+**subsquid/squid-sdk**（oss-scan/repos/subsquid__squid-sdk）
 - 结构：monorepo：evm/ solana/ substrate/ **tron/**（tron-data、tron-data-service、tron-dump、tron-ingest、tron-normalization、tron-processor）bitcoin/ hyperliquid/ starknet/ fuel/ + processor/typeorm/graphql 公共层。
 - TRON 支持（关键）：tron-data 直接读 java-tron 的 HTTP API（getBlock/getNowBlock，`httpApi` 参数），即可对接自建全节点，非强制依赖 SQD Network 网关；tron-ingest 提供独立 bin。
 - 许可注意：顶层 LICENSE 为 Apache-2.0，但 tron-processor/tron-data/evm-processor 等核心包 package.json 标 **GPL-3.0-or-later**——内部非商业使用合法，若改造后对外分发需开源。
@@ -81,7 +81,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 可借：TRON 摄取管线（区块/交易/内部交易/事件解码）是同类唯一开源实现，可作 TRON 研判数据底座。
 - 风险：tron 包版本 0.1.x，成熟度低于 EVM 包；TypeScript 技术栈需团队适配；GPL 传染边界要审计。
 
-**graphprotocol/graph-node**（D:\oss-scan\repos\graphprotocol__graph-node）
+**graphprotocol/graph-node**（oss-scan/repos/graphprotocol__graph-node）
 - 结构：Rust workspace：chain/（链适配）core/ graph/ graphql/ node/ runtime/（WASM 映射执行）server/ store/ gnd/；docker/ 提供 docker-compose 与 build 脚本。
 - 部署：标准三件套 graph-node + Postgres + IPFS + 归档 RPC；文档完整（docker/README.md）。
 - 链支持：任意 EVM 类链（BSC 可直接配 RPC）；TRON 无适配。
@@ -89,7 +89,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 可借：成熟的 GraphQL 数据服务与 subgraph 工具链（graph-cli/graph-ts），若团队想统一"索引即映射"模型可用它承载 ETH/BSC 合约事件。
 - 风险：部署重（需归档节点 + IPFS + Postgres）；映射用 AssemblyScript，团队学习成本；项目重心在 The Graph 去中心网络，自托管场景属二等公民。
 
-**mempool/mempool**（D:\oss-scan\repos\mempool__mempool）
+**mempool/mempool**（oss-scan/repos/mempool__mempool）
 - 结构：backend（Node/TS，api/explorer/货币与费率等模块）+ frontend（Angular）+ rust/ + docker/（compose、mysql、init 脚本）。
 - 部署：docker-compose 仅容器化前后端，需外置 Bitcoin Core（txindex=1）+ electrs（地址索引需 Electrum Server）+ MySQL；官方文档有配置样例。
 - 许可：AGPL-3.0-or-later + 商标限制（Mempool Open Source Project®）；内部部署不对外提供服务则无义务开源。
@@ -177,7 +177,7 @@ title: 开源项目全量扫描（2026-11-19）
 
 ### 深入分析（浅克隆走读）
 
-**TornadoCash-demixer**（`D:\oss-scan\repos\prettydeath__TornadoCash-demixer`，7.7MB）
+**TornadoCash-demixer**（`oss-scan/repos/prettydeath__TornadoCash-demixer`，7.7MB）
 - 【事实｜README + 仓库树】Python 包（PyPI：`tornado-demix`），带 CITATION.cff（Zenodo DOI）、mkdocs 文档站、`calibration/`、`tests/`、`webui/`、`docs/EVALUATION.md` 安慰剂检验。覆盖 **8 条 EVM 链上的 56 个注册池**（含 ETH 主网与 BSC 等）。
 - 【事实｜README】启发式分三档：`strong` = 两个独立信号家族（72 小时内直接交易对手 + 早期多池画像匹配）；`moderate` = 单一 lead 信号；`weak` = 金额+时间、gas 价格复用等——**作者自证这些在真实存款人上与随机命中无异，只作上下文，永不提级**。评分输出标注"是线索不是证明"。
 - 【事实｜README】还做：退出款分组（operator clusters）、交易所/服务商/4337 智能账户入金地址标注、提款后资金的多跳前向追踪。
@@ -185,7 +185,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 【推断｜置信度：中高】这是 DeMix（论文方向）的**可运行工程化实现**，方法学克制（明确排除 chance-level 信号）在开源取证工具里罕见。风险：单人维护、无第三方复现记录、star=1 意味着零社区检验；TRON 侧的混币（如 Justmix 类）**不在覆盖范围**，8 EVM 链=TRON 不在内。
 - 【待验证】用一笔已知 Tornado 历史地址跑一遍，对照 Etherscan 人工结果；确认 BSC 链的池子注册表时效性。
 
-**bobslayerX/crypttrace**（`D:\oss-scan\repos\bobslayerX__crypttrace`，7.1MB）
+**bobslayerX/crypttrace**（`oss-scan/repos/bobslayerX__crypttrace`，7.1MB）
 - 【事实｜README + pyproject.toml】PyPI 包 `crypttrace[web]`：终端 + 本地 Flask Web UI（资金流图）+ fpdf2 生成 PDF 证据包。CI 有离线 selftest（免 Key 可跑）。
 - 【事实｜src/crypttrace/fetchers/tron.py】TRON 走 TronGrid **免 Key**，处理 hex(41)→base58(T) 转换；docstring 直接点名 "pig butchering"（杀猪盘）USDT-TRC20 是其主要设计场景——与本组研判对象完全一致。
 - 【事实｜src/crypttrace/freeze.py】**稳定币冻结检查**：不查第三方名单，直接调 USDT 的 `isBlackListed` / USDC 的 `isBlacklisted` / balanceOf（ETH 公共 RPC、TronGrid、Solana token account 三路），回答"这个地址上有多少 USDT/USDC、是否已被冻结、谁有权冻结"。
@@ -238,7 +238,7 @@ title: 开源项目全量扫描（2026-11-19）
 
 ### 深入分析（浅克隆走读）
 
-**IBM/Multi-GNN**（D:\oss-scan\repos\IBM__Multi-GNN）
+**IBM/Multi-GNN**（oss-scan/repos/IBM__Multi-GNN）
 - 结构：单层平铺 14 个 Python 文件——models.py（GIN/GAT/PNA/RGCN 四类 + eMLPs/reverse-MP/ego-ids/port-numbering 适配，即论文全部创新点）、data_loading/data_util（把 Kaggle 的 IBM-AML 合成交易 CSV 转成 PyG 异质有向多重图）、main.py/training/inference（训练/微调/推理一条龙）、data_config.json+model_settings.json 配置化。
 - 部署：conda env.yml（python3.9+torch+CUDA11.8+pyg）→ `format_kaggle_files.py` 预处理 → `python main.py --data Small_HI --model gin --emlps --reverse_mp --ego --ports`。文档可跑，步骤清晰。
 - TRON/BSC：无任何链上接入，数据依赖 Kaggle IBM 合成 AML 数据集（非 Elliptic/Elliptic++）。
@@ -246,7 +246,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 不可借：无线上推理服务化，无增量训练。
 - 风险：默认分支最后实提交 2024-02（README 提到 reverse MP bug 修复后请 re-fork）；依赖版本偏旧（pandas 2.0.3/sklearn 1.3），需重建环境。判定"参考"：作为检测模型页的复现骨架与基线，不作为部署件。
 
-**malvaphe/Crypto_Honeypot_Detector**（D:\oss-scan\repos\malvaphe__Crypto_Honeypot_Detector）
+**malvaphe/Crypto_Honeypot_Detector**（oss-scan/repos/malvaphe__Crypto_Honeypot_Detector）
 - 结构：npm monorepo 三包——packages/core（检测引擎库+CLI）、packages/server（REST API，可挂 webapp）、packages/webapp（React+Vite）；contracts/HoneypotSimulator.sol 源码在库、编译产物 prebuilt 进 core（免 solc）。
 - 原理：v2 无需部署合约——用 `eth_call` state-override 注入模拟器合约做单次买/卖/转账模拟，另用 `eth_simulateV1` 走"普通钱包 approve+卖"路径，专治"只骗模拟器"的蜜罐（gasprice==0 才放行、白名单地址、过期授权等）；链上自动找流动性最深池（Uniswap V2/V3 系）。
 - 部署：Node22+`npm install`→`npm run demo`（anvil 本地链+真实 Uni 合约+示例蜜罐代币，即开即用）；CLI `npm run check -- <token> --chain bsc`；Docker 单容器 `docker run -p 8080:8080 -e RPC_URL_BSC=...`；退出码 0/1/2 便于脚本化。
@@ -255,7 +255,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 不可借：TRC20 侧无解；-owner 类后手风险（作者自述：模拟只反映当下状态）。
 - 风险：单维护者（Nicolò Sartor），68★，人力总线因子 1；无 GitHub release（以 commit 版本走）。判定"主力候选"——本类目前唯一活跃、工程质量高的开源 honeypot 检测器。
 
-**MetaMask/eth-phishing-detect**（D:\oss-scan\repos\MetaMask__eth-phishing-detect）
+**MetaMask/eth-phishing-detect**（oss-scan/repos/MetaMask__eth-phishing-detect）
 - 结构：TS 小库——src/config.json（3.6MB：version/tolerance=1/fuzzylist/whitelist/blacklist，域名级名单）+ detector.ts（前缀/后缀/Levenshtein 容差匹配）+ update-config.ts；由 bot 持续合入 PhishFort 等来源（13 周 23681 次提交均为 feed 更新，≥100 贡献者）。
 - 部署：npm 包直接 `import checkForPhishing(domain)`，或把 config.json 当纯数据源自研匹配器；无服务端组件。
 - TRON/BSC：链无关（域名层），web3 钓鱼域名通用，含大量 BSC/DEX 假站。
@@ -263,7 +263,7 @@ title: 开源项目全量扫描（2026-11-19）
 - 不可借：无地址级数据；无 API 服务。
 - 风险：**许可是 "DON'T BE A DICK" v1.2（DBAD），非 OSI 标准**——内部非商业使用实质可行（保留出处、不整套复售），但需在法务上确认后再进生产；feed 由 bot 驱动，star/提交数不反映人工维护量。判定"备选"。
 
-**bobslayerX/crypttrace**（D:\oss-scan\repos\bobslayerX__crypttrace）
+**bobslayerX/crypttrace**（oss-scan/repos/bobslayerX__crypttrace）
 - 结构：Python 包 crypttrace/——chains.py（EVM+btc/ltc/doge/**tron**/sol/ton 八类链）、fetchers/（etherscan/trongrid/bitcoin/ton 等）、labels/（实体标签：直接复用 scamsniffer/scam-database 与 0xB10C OFAC 名单）、freeze.py（抓 Tether/Circle 法务页构建 USDT/USDC 冻结黑名单，TronGrid 校验）、assess.py（风险信号→加权评分→置信度声明，含"固定手续费指纹"等 sweeper 检测）、gascluster.py、poisoning.py（地址投毒检测）、web/（本地资金流图 UI）、pdf.py/evidence.py（证据包）。
 - 部署：`pipx install "crypttrace[web]"`；EVM 需免费 Etherscan key（BSC/OP/Base 需付费档）；BTC/LTC/DOGE/TRON/SOL/TON 走公共端点免 key；`python selftest.py` 离线自检。
 - TRON/BSC：TRON 原生支持（TronGrid+TronScan 链接生成，USDT 冻结名单校验）；ETH 完整；BSC 可用但受 Etherscan 免费档限制。
