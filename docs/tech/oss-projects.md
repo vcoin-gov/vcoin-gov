@@ -6,7 +6,7 @@ title: 开源项目调研
 
 <div class="doc-meta">
   <span class="owner">负责人：@Fiagainster · @墨辰</span>
-  <span class="doing">状态：进行中</span>
+  <span class="doing">状态：初稿完成</span>
 </div>
 
 ## 结论摘要
@@ -343,7 +343,7 @@ star 数只用于排序，不参与判定。
 - [x] 用近 13 周提交数与 release 日期复核第一轮结论（推翻 TrueBlocks 与 G6 的"活跃"判断）
 - [ ] 实测 watchman：导入 OFAC，对一个已知被制裁地址 + 一个干净地址筛查，记录评分与耗时
 - [ ] 用 bitiodine 跑一段主网数据，验证共花聚类结果可复现、断点续跑正常
-- [ ] 读 altscan 的 BSC 索引与地址监控实现，判断能否只借 `watch_addresses` 那一层
+- [x] 读 altscan 的 BSC 索引与地址监控实现（2026-11-19 静态走读完成）：可借 watchlist 接口设计与 advisory-lock 幂等写法，索引层不押注，详见全量扫描报告 07 节
 - [ ] 核实 scam-database 黑名单的收录口径与许可边界（GPL-3.0 用在数据上的实际含义）
 - [ ] 实测 `fystack/multichain-indexer` 拉 TRC20 转账，记录改造量
 - [ ] 实测 Tronscan API 的限流与字段完整度，写成表格（与链上组共用）

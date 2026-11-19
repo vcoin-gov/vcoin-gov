@@ -33,7 +33,7 @@
 
 | 群昵称 | GitHub | 负责专题 | 页面 | 状态 |
 | --- | --- | --- | --- | --- |
-| @Fiagainster / @墨辰 | Fiagainster | 调研相关开源项目与热门项目，评估可集成性，推进检测模型与原型 | [开源项目调研](../tech/oss-projects) · [检测模型与原型](../tech/detection-model) | 进行中 |
+| @Fiagainster / @墨辰 | Fiagainster | 调研相关开源项目与热门项目，评估可集成性，推进检测模型与原型 | [开源项目调研](../tech/oss-projects) · [检测模型与原型](../tech/detection-model) | 调研初稿完成 / 模型进行中 |
 | @Fiagainster | Fiagainster | Blockscout 深挖：原理拆解、部署实测、二次开发路线评估 | [Blockscout 专题](../tech/blockscout) | 进行中 |
 
 ---
@@ -55,7 +55,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 政策与法规研判 | 4 | 0 | 0 | 4 | — |
 | 链上特征与情报研判 | 4 | 0 | 1 | 3 | 可视化待启动；工具对比初稿待组内 Review |
-| 技术检测与原型 | 3 | 0 | 0 | 3 | oss-projects 二轮扫描与主页修订已合并（PR #18/#20/#21）；P1 冻结名单原型已跑通（PR #22），P2/P3 待排期开工；检测模型待链上组提供特征清单 |
+| 技术检测与原型 | 3 | 0 | 2 | 1 | oss-projects 初稿完成（PR #18/#20/#21）、blockscout 进行中、detection-model 进行中；P1 原型已跑通（PR #22），P2/P3 待排期；**内容复核待墨辰补**；检测模型待链上组提供特征清单 |
 
 ## 加入方式
 
