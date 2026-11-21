@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   lang: 'zh-CN',
   title: '虚拟币治理打击技术开源社区',
   description: '聚焦虚拟货币涉诈涉赌链路的风险识别、链上特征、治理难点、技术研判与防控对策',
@@ -72,6 +73,8 @@ export default defineConfig({
           { text: '境外监管与跨境差异', link: '/policy/overseas-regulation' },
           { text: '公开通报案例库', link: '/policy/cases' },
           { text: '治理痛点提炼', link: '/policy/pain-points' },
+          { text: '治理难点与防控对策', link: '/policy/governance' },
+          { text: '宣传预警', link: '/policy/awareness' },
         ],
       },
       {
@@ -80,7 +83,21 @@ export default defineConfig({
         items: [
           { text: '组内概览', link: '/onchain/' },
           { text: '基础链上知识', link: '/onchain/basics' },
-          { text: '异常地址特征', link: '/onchain/address-features' },
+          {
+            text: '异常地址特征',
+            collapsed: false,
+            items: [
+              { text: '总览 · 组合与评分', link: '/onchain/address-features' },
+              { text: '特征一 · 大额快转', link: '/onchain/features/rapid-pass' },
+              { text: '特征二 · 小额拆分', link: '/onchain/features/smurfing' },
+              { text: '特征三 · 多地址集散', link: '/onchain/features/scatter-gather' },
+              { text: '特征四 · 标签地址交互', link: '/onchain/features/risk-neighbor' },
+              { text: '特征五 · 高频跨链', link: '/onchain/features/chain-hopping' },
+              { text: '公开数据集清单', link: '/onchain/datasets' },
+              { text: '公开案例地址与链路', link: '/onchain/case-addresses' },
+              { text: '重点场景链路画像', link: '/onchain/scenarios' },
+            ],
+          },
           { text: '链路可视化研究', link: '/onchain/visualization' },
           { text: '链上分析工具对比', link: '/onchain/tools' },
           { text: '工具选型一页纸', link: '/onchain/tools-brief' },
@@ -96,6 +113,7 @@ export default defineConfig({
           { text: '开源项目调研', link: '/tech/oss-projects' },
           { text: '开源项目全量扫描', link: '/tech/oss-projects-scan' },
           { text: 'Blockscout 专题', link: '/tech/blockscout' },
+          { text: '技术研判方法', link: '/tech/forensic-methods' },
           { text: '检测模型与原型', link: '/tech/detection-model' },
         ],
       },
@@ -104,6 +122,7 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: '术语对照表', link: '/glossary/terms' },
+          { text: '涉诈行话速查', link: '/glossary/slang' },
           { text: '数据与文献资源', link: '/glossary/resources' },
         ],
       },
@@ -152,4 +171,13 @@ export default defineConfig({
       copyright: '虚拟币治理打击技术开源社区',
     },
   },
-})
+
+  mermaid: {
+    // 浅色模式的 mermaid 主题；深色模式下插件按 body 的 dark 类自动切换
+    theme: 'neutral',
+  },
+  mermaidPlugin: {
+    // 语言标签，页面里用 ```mermaid 即触发渲染
+    class: 'mermaid',
+  },
+}))
