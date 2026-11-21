@@ -6,7 +6,7 @@ title: 国内法规与司法解释
 
 <div class="doc-meta">
   <span class="owner">负责人：@墨云</span>
-  <span class="todo">状态：进行中</span>
+  <span class="doing">状态：进行中</span>
 </div>
 
 ## 本页要回答的问题
