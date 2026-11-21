@@ -6,7 +6,7 @@ title: 链路可视化研究
 
 <div class="doc-meta">
   <span class="owner">负责人：@🎾Hyperspace🍀</span>
-  <span class="todo">状态：进行中 · P0 已完成</span>
+  <span class="doing">状态：进行中 · P0 已完成</span>
 </div>
 
 ## 本页要回答的问题
