@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>项目0 资金流转图 · Cytoscape vs G6</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>涉诈资金流转图 · 五层结构与双引擎对比</h1>
+      <div class="sub" id="head-meta">加载中…</div>
+    </div>
+    <div class="controls">
+      <div class="seg">
+        <button data-mode="compare" class="on">对比</button>
+        <button data-mode="cy">Cytoscape</button>
+        <button data-mode="g6">G6</button>
+      </div>
+      <div class="seg">
+        <button data-view="layered" class="on">分层</button>
+        <button data-view="force">力导向</button>
+      </div>
+      <button class="ghost" id="btn-core" title="隐藏被害人层，只看资金归集链路">仅 L1–L5</button>
+      <button class="ghost" id="btn-fit">复位</button>
+      <button class="ghost" id="btn-check" title="同一快照重建两次，比较画布像素哈希">确定性校验</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="panes" class="compare">
+      <div class="pane visible" data-engine="cy">
+        <div class="pane-head"><b>Cytoscape.js</b><span class="tag">3.35</span><span class="ms" id="ms-cy" title="首帧耗时（含渲染器初始化）"></span></div>
+        <div class="canvas"><div id="cy"></div></div>
+      </div>
+      <div class="pane visible" data-engine="g6">
+        <div class="pane-head"><b>AntV G6</b><span class="tag">5.1</span><span class="ms" id="ms-g6" title="首帧耗时（含渲染器初始化）"></span></div>
+        <div class="canvas"><div id="g6"></div></div>
+      </div>
+    </section>
+
+    <aside>
+      <div id="detail"></div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="legend" id="legend"></div>
+    <div id="status">加载中…</div>
+  </footer>
+
+  <script src="./vendor/cytoscape.min.js"></script>
+  <script src="./vendor/g6.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

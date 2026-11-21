@@ -9,3 +9,6 @@ Thumbs.db
 .preview/
 .workbuddy/
 oss-scan/
+
+__pycache__/
+*.pyc
