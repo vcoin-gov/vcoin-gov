@@ -1,3 +1,4 @@
+治理痛点提炼
 ---
 title: 治理痛点提炼
 ---
@@ -61,6 +62,13 @@ title: 治理痛点提炼
 "混币器让资金完全无法追踪"是错的。准确表述是：**混币器切断了池内直接关联，使单笔资金的链上连续性中断，但无法消除出池后的行为特征与法币出口的必然性。** 写材料时这个区别很重要，前者会导致放弃追踪，后者指向正确的攻关方向。
 :::
 
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 火币钱包开发者“后门窃币”案 |
+| **涉及痛点** | A1 · 混币器 / Tornado 类工具 |
+| **案例内容** | 开发者植入后门窃取私钥，得手后经混币器洗白；混币仅切断池内关联，出池行为特征仍可分析，最终未及变现即案发。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=cVyxAV2KtXSgmx+sKMYrYHrHrSXmuGGgGTMxmoKfnQEgixf6Mok7RZO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCXUSYRWfxwHE5+A+9lENdnR](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=cVyxAV2KtXSgmx+sKMYrYHrHrSXmuGGgGTMxmoKfnQEgixf6Mok7RZO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCXUSYRWfxwHE5+A+9lENdnR) |
+
 ### A2 · 跨链跳转
 
 **机理**：资产从 A 链转到 B 链，中间经过桥的锁定/铸造合约，目标链上生成的是**新的资产凭证**，与原地址无直接转账关系。多跳几次后，原始来源在链上表现为"消失"。
@@ -69,6 +77,13 @@ title: 治理痛点提炼
 
 **可攻的缝**：桥的锁定地址是公开的，**入池与出池在时间与金额上存在可统计的对应关系**。对于流动性池模式的桥，跨链前后存在量级上的守恒关系，可作为概率关联。多链数据统一索引是工程问题，不是原理障碍。
 
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 独山“TFX”自发币传销案 |
+| **涉及痛点** | A2 · 跨链跳转 |
+| **案例内容** | 利用币安↔波场跨链闪兑转移USDT，切断原链地址直接关联；但跨链桥锁定地址公开，入出池时间与金额可统计对应，形成概率关联。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=pl5PTLOzdgmoEUDzUCWev+zkBwYKhpKROOaRRXdybhyKkaDK/G+aFpO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+aq/42WD1fXD](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=pl5PTLOzdgmoEUDzUCWev+zkBwYKhpKROOaRRXdybhyKkaDK/G+aFpO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+aq/42WD1fXD) |
+
 ### A3 · 假名地址
 
 **机理**：地址本身是假名的，天然不与身份绑定。但**每一次与 KYC 主体的交互都是一次身份泄漏点**。
@@ -76,6 +91,13 @@ title: 治理痛点提炼
 **可攻的缝**：地址聚类（共同输入、找零地址、交易所充值地址复用）、与已知标签地址的交互图谱、链下信息交叉（社交平台公布的收款地址、勒索信中的地址）。
 
 **边界**：聚类结果是**概率性归集**，不是身份认定。写材料时必须区分"归集为一簇"和"属于某人"，否则在法庭上站不住。
+
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 缅北裸聊敲诈集团USDT洗钱案 |
+| **涉及痛点** | A3 · 假名地址 |
+| **案例内容** | 集团使用大量USDT钱包地址收款，地址与身份无绑定；侦查通过链上穿透与交易所流水实现概率性归集，完成从地址簇到嫌疑人的身份关联。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=lACsLhhe9uAPC784WW7PhTAuYC0xAgVH/Xi8ZHAOcCKv5YvHZalPipO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+RPVjFfJ0N9k](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=lACsLhhe9uAPC784WW7PhTAuYC0xAgVH/Xi8ZHAOcCKv5YvHZalPipO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+RPVjFfJ0N9k) |
 
 ### B1 · OTC 场外交易
 
@@ -91,6 +113,13 @@ title: 治理痛点提炼
 
 **可攻的缝**：币商的链上地址是稳定的（长期复用少数地址做归集），行为模式高度重复。**识别一个币商比识别一笔交易容易得多。**
 
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 扎兰屯伍某某、陈某某“易优”OTC承兑案 |
+| **涉及痛点** | B1 · OTC 场外交易 |
+| **案例内容** | 承兑商在“易优”挂单，要求被害人现金存入本人卡后线下购U，链下交割无中介留痕；但币商地址长期复用，识别币商比识别单笔交易容易。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=Xa7eLfpmr668edd2tCYeqNVRiWrJsg/acPcVcpDVJqd4CuAaognxCpO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCVXFPH/sg2e7tq73Z31d7GD](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=Xa7eLfpmr668edd2tCYeqNVRiWrJsg/acPcVcpDVJqd4CuAaognxCpO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCVXFPH/sg2e7tq73Z31d7GD) |
+
 ### B2 · 匿名（非托管）钱包
 
 **机理**：私钥自持，无中介，无 KYC。
@@ -98,6 +127,13 @@ title: 治理痛点提炼
 **真正的争议点**：这类钱包本身是中性工具，把它当治理对象在法理上站不住。**治理对象应是"资金流经的行为"，不是"工具本身"。** 写对策建议时如果把"禁用非托管钱包"当结论，会被直接否掉。
 
 **可攻的缝**：不做工具管控，做**出口管控**——变现、消费、兑入合规体系时的节点是唯一有效抓手。
+
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 黄某、严某贩卖毒品自洗钱案（比特派钱包） |
+| **涉及痛点** | B2 · 匿名（非托管）钱包 |
+| **案例内容** | 毒贩将毒资换成USDT存入比特派非托管钱包，私钥自持、无KYC主体可追责；案例印证工具中性，治理应聚焦变现出口而非禁用工具。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=6FkEWTGhxSgLGwZdsgngTCX1A76uwepLi+3ShZQKgX4EY+UO3IhoypO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+YqQOyiAMSot](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=6FkEWTGhxSgLGwZdsgngTCX1A76uwepLi+3ShZQKgX4EY+UO3IhoypO3qNaLMqsJp8/qi6q5Wbgk7tOgs9tCboAj2eH0hAdg8p5+Vx+lFa9xJE9emcfj4byF120U6LFi4axpCPUhBTQ72+b+Dp1h+YqQOyiAMSot) |
 
 ### B3 · 本地土狗盘
 
@@ -111,6 +147,13 @@ title: 治理痛点提炼
 - 类目混杂：有的构成传销，有的只是投机亏损，法律定性成本高
 
 **可攻的缝**：**这类盘子的推广环节是本地化的、可触达的**。与前面几类"技术无解"不同，土狗盘的问题在资源投入和定性标准，不在技术。
+
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 马鞍山“某云时代”传销案 |
+| **涉及痛点** | B3 · 本地土狗盘 |
+| **案例内容** | 本地传销资金盘，6级层级、300余人参与，单案金额3400余万元；推广本地化、可触达，治理瓶颈在定性标准与资源投入，不在技术。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=H4KnwA06Y1GvhlwISoOgv4j/57h1/I26xuQYh/tDHzb4mFEKPDgb+5O3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCXaert16TJOyYkCBMkK8fOv](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=H4KnwA06Y1GvhlwISoOgv4j/57h1/I26xuQYh/tDHzb4mFEKPDgb+5O3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCXaert16TJOyYkCBMkK8fOv) |
 
 ### C1 · 跨境资金穿透
 
@@ -126,11 +169,25 @@ title: 治理痛点提炼
 
 **结论**：这不是"努力就能追上"的差距，是**结构性不对称**。对策不应是"追得更快"，而应是"让资金在出境前被拦住"——把战场前移到境内收款环节。
 
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 沈阳佟某某非法经营案（跨境对敲标准型） |
+| **涉及痛点** | C1 · 跨境资金穿透 |
+| **案例内容** | 境内收人民币、境外付美元现金，虚拟币作变现出口；管辖边界与资金无界形成结构性不对称，调证周期以月计，资金流转以分钟计。 |
+| **案例原地址** | [https://www.mps.gov.cn/n2255079/n4242954/n4841045/n4841050/c10338449/content.html](https://www.mps.gov.cn/n2255079/n4242954/n4841045/n4841050/c10338449/content.html) |
+
 ### C2 · 变现环节滞后
 
 **机理**：案件发现往往在被害人报案之后，此时资金已完成多级流转。
 
 **可攻的缝**：**时效前置**。止付冻结的价值随时间指数衰减，第一小时的处置效果远高于第一周。技术侧能贡献的是**自动化预警**（账户异常行为实时识别），而不是事后溯源。
+
+| 字段 | 内容 |
+| --- | --- |
+| **名称** | 宁乡孟某“闪兑”跑分案 |
+| **涉及痛点** | C2 · 变现环节滞后 |
+| **案例内容** | 跑分流水2100万元，卷内止付冻结记录反映处置时点已在资金流转之后；止付冻结价值随时间指数衰减，技术侧应做自动化预警前置。 |
+| **案例原地址** | [https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=2Fh5SZQZfVA14SoV1O4WrHnWSHZhI1SjCEQJPnScyKcrJQLkxglQXpO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCVLLLoenggq6yVX9TsK7foj](https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=2Fh5SZQZfVA14SoV1O4WrHnWSHZhI1SjCEQJPnScyKcrJQLkxglQXpO3qNaLMqsJp8/qi6q5WbjF1Tb8axgbdOS0Bw7aVzfA/vUBTDgquCVLLLoenggq6yVX9TsK7foj) |
 
 ## 痛点矩阵
 
@@ -227,7 +284,7 @@ title: 治理痛点提炼
 
 ## 六、待办
 
-- [ ] 八个痛点各补 1 个公开案例佐证（与[公开通报案例库](./cases)联动）
+- [x] 八个痛点各补x 1 个公开案例佐证（与[公开通报案例库](./cases)联动）
 - [ ] 痛点矩阵的判断依据写清，组内投票确认
 - [ ] 与 @行动党 对齐跨境部分的表述，避免与[境外监管与跨境差异](./overseas-regulation)冲突
 - [ ] 与链上组对齐：A 类痛点（技术性匿名）要落到具体可做的分析方向，不能停在"难"
